@@ -16,7 +16,7 @@ public class CustomerService {
     private CustomerRepository customerRepository;
     private AuthenticationManager authenticationManager;
 
-    public Customer addCustomer(Customer customer) throws PostErrorMessage {
+    public Customer addCustomer(Customer customer) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String password = passwordEncoder.encode(customer.getPassword());
         System.out.println("password: " + password);

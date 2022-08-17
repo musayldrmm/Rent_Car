@@ -22,7 +22,7 @@ public class JwtTokenUtil {
     public String generateAccessToken(Customer customer) {
         return Jwts.builder()
                 .setSubject(String.format("%s,%s", customer.getId(), customer.getEmail()))
-                .setIssuer("RentCar")
+                .setIssuer("Rent-car")
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRE_DURATION))
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
@@ -52,12 +52,10 @@ public class JwtTokenUtil {
         return parseClaims(token).getSubject();
     }
 
-    private Claims parseClaims(String token) {
+    public Claims parseClaims(String token) {
         return Jwts.parser()
                 .setSigningKey(SECRET_KEY)
                 .parseClaimsJws(token)
                 .getBody();
     }
-
-
 }

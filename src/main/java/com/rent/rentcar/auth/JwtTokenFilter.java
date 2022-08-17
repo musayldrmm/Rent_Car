@@ -1,8 +1,12 @@
 package com.rent.rentcar.auth;
 
 import com.rent.rentcar.entity.Customer;
+import com.rent.rentcar.entity.Role;
+import com.rent.rentcar.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -15,11 +19,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Optional;
 
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
     @Autowired
     private JwtTokenUtil jwtUtil;
+    @Autowired
+    private CustomerRepository customerd;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -55,9 +64,16 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     private void setAuthenticationContext(String token, HttpServletRequest request) {
         UserDetails userDetails = getUserDetails(token);
+        Optional<Customer> customer = customerd.findByEmail(userDetails.getUsername());
 
+        Collection<SimpleGrantedAuthority> authorities= new ArrayList<>();
+
+        for (Role role : customer.get().getRole()) {
+            System.out.println("ROOLLER: "+role.getName());
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
         UsernamePasswordAuthenticationToken
-                authentication = new UsernamePasswordAuthenticationToken(userDetails, null, null);
+                authentication = new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
 
         authentication.setDetails(
                 new WebAuthenticationDetailsSource().buildDetails(request));
@@ -68,10 +84,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private UserDetails getUserDetails(String token) {
         Customer userDetails = new Customer();
         String[] jwtSubject = jwtUtil.getSubject(token).split(",");
-
         userDetails.setId(Long.parseLong(jwtSubject[0]));
         userDetails.setEmail(jwtSubject[1]);
-
         return userDetails;
     }
 }

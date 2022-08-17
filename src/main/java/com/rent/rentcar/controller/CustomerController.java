@@ -44,6 +44,12 @@ public class CustomerController {
         return ResponseEntity.ok(customerservice.addCustomer(customer));
     }
 
+    @GetMapping("/get-token")
+    public ResponseEntity<?>getToken(){
+        return  ResponseEntity.ok(jwtUtil.parseClaims("Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1NTgsZGVuZW1lQG91dGxvb2suY29tIiwiaXNzIjoiUmVudC1jYXIiLCJpYXQiOjE2NjA3Mjc4NDcsImV4cCI6MTY2MDgxNDI0N30.t0mfUlawgfUj7JnNeABdNBPuDozKRuLKb7emqLlfnY3DAw-QGMgojg77QUknFZCn1R0qzeflRhRGyqUvfcNuLA"));
+    }
+
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid AuthRequest request) {
         try {
@@ -54,13 +60,13 @@ public class CustomerController {
 
             Customer customer = (Customer) authentication.getPrincipal();
             String accessToken = jwtUtil.generateAccessToken(customer);
-            AuthResponse response = new AuthResponse(customer.getId(), customer.getEmail(), "Bearer " + accessToken);
+            AuthResponse response = new AuthResponse( "Bearer " + accessToken);
 
             return ResponseEntity.ok().body(response);
 
         } catch (BadCredentialsException ex) {
 
-            throw new LoginErrorMessage("Şifreyi hatalı girdiniz.");
+            throw new LoginErrorMessage("Şifreyi  hatalı girdiniz.");
         }
     }
 
