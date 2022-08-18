@@ -1,7 +1,7 @@
 package com.rent.rentcar;
 
-import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import com.rent.rentcar.auth.JwtTokenFilter;
+import com.rent.rentcar.exceptions.CustomAccesDeniedHandler;
 import com.rent.rentcar.exceptions.LoginErrorMessage;
 import com.rent.rentcar.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
 import javax.servlet.http.HttpServletResponse;
@@ -42,7 +43,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.exceptionHandling()
                 .authenticationEntryPoint(
-                        (request, response, ex ) -> {
+                        (request, response, ex) -> {
                             response.sendError(
                                     HttpServletResponse.SC_UNAUTHORIZED,
                                     ex.getMessage()
@@ -52,15 +53,17 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
         http.authorizeRequests()
-                .antMatchers("/customer/all","/customer/remove-customer").hasAnyAuthority("ADMIN")
-                .antMatchers("/category/all","/category/remove-category").hasAnyAuthority("ADMIN")
-                .antMatchers("/product/all","/product/remove-product").hasAnyAuthority("ADMIN")
-                .antMatchers("/order/all","/order/remove-order").hasAnyAuthority("ADMIN")
-                .antMatchers("/wishlist/all","/wishlist/remove-wishlist").hasAnyAuthority("ADMIN")
-                .antMatchers("/car-brand/all","/car-brand/remove-car-brand").hasAnyAuthority("ADMIN")
-                .antMatchers("/model-name/all","/model-name/remove-model-name").hasAnyAuthority("ADMIN")
-                .antMatchers("/customer/login","/customer/save").permitAll()
+                .antMatchers("/customer/all", "/customer/remove-customer").hasAnyAuthority("ADMIN")
+                .antMatchers("/category/all", "/category/remove-category").hasAnyAuthority("ADMIN")
+                .antMatchers("/product/all", "/product/remove-product").hasAnyAuthority("ADMIN")
+                .antMatchers("/order/all", "/order/remove-order").hasAnyAuthority("ADMIN")
+                .antMatchers("/wishlist/all", "/wishlist/remove-wishlist").hasAnyAuthority("ADMIN")
+                .antMatchers("/car-brand/all", "/car-brand/remove-car-brand").hasAnyAuthority("ADMIN")
+                .antMatchers("/model-name/all", "/model-name/remove-model-name").hasAnyAuthority("ADMIN")
+                .antMatchers("/customer/login", "/customer/save").permitAll()
                 .anyRequest().authenticated();
+        http.exceptionHandling().accessDeniedHandler(new CustomAccesDeniedHandler());
+
     }
 
     @Bean

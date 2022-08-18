@@ -1,6 +1,5 @@
 package com.rent.rentcar.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,7 +39,7 @@ public class Customer implements UserDetails {
     @Column(name = "adres", length = 500)
     private String address;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE,CascadeType.REMOVE})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     @JsonIgnoreProperties(value = "customer")
     @JoinTable(name = "Rel_customer__role", joinColumns = @JoinColumn(name = "customer_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> role;

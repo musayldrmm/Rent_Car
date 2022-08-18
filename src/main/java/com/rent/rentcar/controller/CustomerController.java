@@ -5,9 +5,9 @@ import com.rent.rentcar.entity.AuthRequest;
 import com.rent.rentcar.entity.AuthResponse;
 import com.rent.rentcar.entity.Customer;
 import com.rent.rentcar.exceptions.GetByIdErrorMessage;
+import com.rent.rentcar.exceptions.LoginErrorMessage;
 import com.rent.rentcar.exceptions.PostErrorMessage;
 import com.rent.rentcar.exceptions.RemoveByIdErrorMessage;
-import com.rent.rentcar.exceptions.LoginErrorMessage;
 import com.rent.rentcar.repository.CustomerRepository;
 import com.rent.rentcar.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +45,8 @@ public class CustomerController {
     }
 
     @GetMapping("/get-token")
-    public ResponseEntity<?>getToken(){
-        return  ResponseEntity.ok(jwtUtil.parseClaims("Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1NTgsZGVuZW1lQG91dGxvb2suY29tIiwiaXNzIjoiUmVudC1jYXIiLCJpYXQiOjE2NjA3Mjc4NDcsImV4cCI6MTY2MDgxNDI0N30.t0mfUlawgfUj7JnNeABdNBPuDozKRuLKb7emqLlfnY3DAw-QGMgojg77QUknFZCn1R0qzeflRhRGyqUvfcNuLA"));
+    public ResponseEntity<?> getToken() {
+        return ResponseEntity.ok(jwtUtil.parseClaims("Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1NTgsZGVuZW1lQG91dGxvb2suY29tIiwiaXNzIjoiUmVudC1jYXIiLCJpYXQiOjE2NjA3Mjc4NDcsImV4cCI6MTY2MDgxNDI0N30.t0mfUlawgfUj7JnNeABdNBPuDozKRuLKb7emqLlfnY3DAw-QGMgojg77QUknFZCn1R0qzeflRhRGyqUvfcNuLA"));
     }
 
 
@@ -60,7 +60,7 @@ public class CustomerController {
 
             Customer customer = (Customer) authentication.getPrincipal();
             String accessToken = jwtUtil.generateAccessToken(customer);
-            AuthResponse response = new AuthResponse( "Bearer " + accessToken);
+            AuthResponse response = new AuthResponse("Bearer " + accessToken);
 
             return ResponseEntity.ok().body(response);
 

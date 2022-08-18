@@ -1,7 +1,6 @@
 package com.rent.rentcar.service;
 
 import com.rent.rentcar.entity.Customer;
-import com.rent.rentcar.exceptions.PostErrorMessage;
 import com.rent.rentcar.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -12,7 +12,7 @@ public class AuthResponse {
     public AuthResponse() {
     }
 
-    public AuthResponse( String accessToken) {
+    public AuthResponse(String accessToken) {
 
         this.accessToken = accessToken;
     }

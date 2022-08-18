@@ -4,7 +4,6 @@ import com.rent.rentcar.entity.Customer;
 import com.rent.rentcar.entity.Role;
 import com.rent.rentcar.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -66,10 +65,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         UserDetails userDetails = getUserDetails(token);
         Optional<Customer> customer = customerd.findByEmail(userDetails.getUsername());
 
-        Collection<SimpleGrantedAuthority> authorities= new ArrayList<>();
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
         for (Role role : customer.get().getRole()) {
-            System.out.println("ROOLLER: "+role.getName());
+            System.out.println("ROOLLER: " + role.getName());
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
         UsernamePasswordAuthenticationToken

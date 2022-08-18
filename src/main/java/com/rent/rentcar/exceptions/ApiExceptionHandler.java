@@ -32,4 +32,5 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ExceptionsResponse exceptionResponse = new ExceptionsResponse(exception.getMessage(), 401);
         return new ResponseEntity<ExceptionsResponse>(exceptionResponse, HttpStatus.UNAUTHORIZED);
     }
+
 }

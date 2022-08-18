@@ -1,6 +1,5 @@
 package com.rent.rentcar.service;
 
-import com.rent.rentcar.entity.CarBrand;
 import com.rent.rentcar.entity.Role;
 import com.rent.rentcar.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ import java.util.List;
 @Service
 public class RoleService {
     @Autowired
-    private RoleRepository  roleRepository;
+    private RoleRepository roleRepository;
 
     public Role addRole(Role role) {
         return roleRepository.save(role);
