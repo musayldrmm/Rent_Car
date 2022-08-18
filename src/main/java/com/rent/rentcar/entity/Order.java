@@ -21,7 +21,7 @@ public class Order {
 
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "Customer_id")
-    @JsonIgnoreProperties(value = {"password"})
+    @JsonIgnoreProperties(value = {"password","accountNonExpired","accountNonLocked","authorities","credentialsNonExpired","enabled","role",})
     private Customer customer;
 
     @OneToMany(cascade = CascadeType.MERGE)
