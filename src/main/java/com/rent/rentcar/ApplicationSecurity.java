@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -28,6 +29,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private JwtTokenFilter jwtTokenFilter;
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -60,9 +62,15 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers("/wishlist/all", "/wishlist/remove-wishlist").hasAnyAuthority("ADMIN")
                 .antMatchers("/car-brand/all", "/car-brand/remove-car-brand").hasAnyAuthority("ADMIN")
                 .antMatchers("/model-name/all", "/model-name/remove-model-name").hasAnyAuthority("ADMIN")
-                .antMatchers("/customer/login", "/customer/save").permitAll()
+
+                .antMatchers("/customer/login", "/customer/save","/swagger-ui.html","/v2/api-docs",
+                        "/swagger-resources/**",
+                        "/swagger-ui.html",
+                        "/webjars/**" ,
+                        /*Probably not needed*/ "/swagger.json").permitAll()
                 .anyRequest().authenticated();
         http.exceptionHandling().accessDeniedHandler(new CustomAccesDeniedHandler());
+
 
     }
 
@@ -77,11 +85,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Bean
-    protected CorsConfigurationSource corsConfigurationSource() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-        return source;
-    }
+
+
 
 }
