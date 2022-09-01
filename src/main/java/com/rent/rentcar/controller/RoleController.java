@@ -33,7 +33,7 @@ public class RoleController {
         return ResponseEntity.ok(roleService.getAllRole());
     }
 
-    @GetMapping("/find-category/{id}")
+    @GetMapping("/find-role/{id}")
     public ResponseEntity<Role> getRole(@PathVariable Long id) throws GetByIdErrorMessage {
         if (!roleRepository.existsById(id)) {
             throw new GetByIdErrorMessage("Böyle bir rol bulunmamakta");
@@ -41,7 +41,7 @@ public class RoleController {
         return ResponseEntity.ok(roleService.getByIdRole(id));
     }
 
-    @DeleteMapping("/remove-category/{id}")
+    @DeleteMapping("/remove-role/{id}")
     public ResponseEntity<Role> removeRole(@PathVariable Long id) throws RemoveByIdErrorMessage {
         if (!roleRepository.existsById(id)) {
             throw new RemoveByIdErrorMessage("Silmek istediğiniz rol kayıdı bulunmamakta");

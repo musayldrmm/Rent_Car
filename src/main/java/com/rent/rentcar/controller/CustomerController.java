@@ -36,12 +36,13 @@ public class CustomerController {
     private CustomerRepository customerRepository;
 
     @PostMapping("/save")
-    public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer) throws PostErrorMessage {
+    public ResponseEntity addCustomer(@RequestBody Customer customer) throws PostErrorMessage {
         String email = customer.getEmail();
         if (customerRepository.existsByEmail(email)) {
             throw new PostErrorMessage("Böyle bir e-mail değeri bulunmakta");
         }
-        return ResponseEntity.ok(customerservice.addCustomer(customer));
+        customerservice.addCustomer(customer);
+        return ResponseEntity.ok("kayit olusturma basarili.");
     }
 
     @GetMapping("/get-token")

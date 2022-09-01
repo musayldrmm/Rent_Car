@@ -3,6 +3,7 @@ package com.rent.rentcar.service;
 import com.rent.rentcar.entity.CarBrand;
 import com.rent.rentcar.repository.CarBrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -49,7 +50,7 @@ public class CarBrandService {
             e.printStackTrace();
         }
     }
-
+    @Order(1)
     @PostConstruct
     public ResponseEntity<CarBrand> UpdateRecord() {
         SaveBrandCar();

@@ -4,6 +4,7 @@ import com.rent.rentcar.entity.CarBrand;
 import com.rent.rentcar.entity.ModelName;
 import com.rent.rentcar.repository.ModelNameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -53,7 +54,7 @@ public class ModelNameService {
             e.printStackTrace();
         }
     }
-
+    @Order(2)
     @PostConstruct
     public ResponseEntity<ModelName> UpdateRecord() {
         saveModelName();

@@ -3,6 +3,7 @@ package com.rent.rentcar.service;
 import com.rent.rentcar.entity.Role;
 import com.rent.rentcar.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -49,7 +50,7 @@ public class RoleService {
             e.printStackTrace();
         }
     }
-
+    @Order(3)
     @PostConstruct
     public ResponseEntity<Role> UpdateRecord() {
         saveRole();
